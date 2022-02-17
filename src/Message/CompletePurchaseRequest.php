@@ -1,10 +1,12 @@
 <?php
 
-namespace Omnipay\IPay88\Message;
+namespace Omnipay\Gkash\Message;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
-    protected $endpoint = 'https://payment.ipay88.com.my/epayment/enquiry.asp';
+
+    #QUERY section, endpoint change to query
+    protected $endpoint = 'https://api-staging.pay.asia/api/payment/query';
 
     public function getData()
     {
@@ -12,39 +14,28 @@ class CompletePurchaseRequest extends AbstractRequest
 
         $data = $this->httpRequest->request->all();
 
-        $data['ComputedSignature'] = $this->signature(
-            $this->getMerchantKey(),
-            $this->getMerchantCode(),
-            $data['PaymentId'],
-            $data['RefNo'],
-            $data['Amount'],
-            $data['Currency'],
-            $data['Status']
-        );
-
         return $data;
     }
 
     public function sendData($data)
     {
-        $data['ReQueryStatus'] = $this->httpClient
-            ->request('post', $this->endpoint . '?' . http_build_query([
-                'MerchantCode' => $this->getMerchantCode(),
-                'RefNo' => $data['RefNo'],
-                'Amount' => $data['Amount'],
-            ]), [], json_encode([]))
+        $data = $this->httpClient->request('post', $this->endpoint,
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+            json_encode([
+                'version' => $this->getVersion(),
+                'CID' => $data['CID'],
+                'cartid' => $data['cartid'],
+                'amount' => $data['amount'],
+                'currency' => $data['currency'],
+                'signature' => $data['signature'],
+            ]))
             ->getBody()
             ->getContents();
 
         return $this->response = new CompletePurchaseResponse($this, $data);
     }
 
-    protected function signature($merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status)
-    {
-        $amount = str_replace([',', '.'], '', $amount);
-
-        $paramsInArray = [$merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status];
-
-        return $this->createSignatureFromString(implode('', $paramsInArray));
-    }
 }

@@ -1,55 +1,145 @@
 <?php
 
-namespace Omnipay\IPay88\Message;
+namespace Omnipay\Gkash\Message;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
-    public function getBackendUrl()
+    public function getVersion()
     {
-        return $this->getParameter('backendUrl');
+        return '1.5.5';
     }
 
-    public function setBackendUrl($backendUrl)
+    public function getSignatureKey()
     {
-        return $this->setParameter('backendUrl', $backendUrl);
+        return $this->getParameter('SignatureKey');
     }
 
-    public function getMerchantKey()
+    public function setSignatureKey($signatureKey)
     {
-        return $this->getParameter('merchantKey');
+        return $this->setParameter('SignatureKey', $signatureKey);
     }
 
-    public function setMerchantKey($merchantKey)
+    public function getCID()
     {
-        return $this->setParameter('merchantKey', $merchantKey);
+        return $this->getParameter('CID');
     }
 
-    public function getMerchantCode()
+    public function setCID($cid)
     {
-        return $this->getParameter('merchantCode');
+        return $this->setParameter('CID', $cid);
     }
 
-    public function setMerchantCode($merchantCode)
+    public function getReturnUrl()
     {
-        return $this->setParameter('merchantCode', $merchantCode);
+        return $this->getParameter('returnurl');
+    }
+
+    public function setReturnUrl($returnurl)
+    {
+        return $this->setParameter('returnurl', $returnurl);
+    }
+
+    public function getCallbackUrl()
+    {
+        return $this->getParameter('callbackurl');
+    }
+
+    public function setCallbackUrl($callbackurl)
+    {
+        return $this->setParameter('callbackurl', $callbackurl);
+    }
+
+    public function getVCartId()
+    {
+        return $this->getParameter('v_cartid');
+    }
+
+    public function setVCartId($v_cartid)
+    {
+        return $this->setParameter('v_cartid', $v_cartid);
+    }
+
+    public function getVCurrency()
+    {
+        return $this->getParameter('v_currency');
+    }
+
+    public function setVCurrency($v_currency)
+    {
+        return $this->setParameter('v_currency', $v_currency);
+    }
+
+    public function getVAmount()
+    {
+        return $this->getParameter('v_amount');
+    }
+
+    public function setVAmount($v_amount)
+    {
+        return $this->setParameter('v_amount', $v_amount);
+    }
+
+    public function getVFirstName()
+    {
+        return $this->getParameter('v_firstname');
+    }
+
+    public function setVFirstName($v_firstname)
+    {
+        return $this->setParameter('v_firstname', $v_firstname);
+    }
+
+    public function getVLastName()
+    {
+        return $this->getParameter('v_lastname');
+    }
+
+    public function setVLastName($v_lastname)
+    {
+        return $this->setParameter('v_lastname', $v_lastname);
+    }
+
+    public function getVBillPhone()
+    {
+        return $this->getParameter('v_billphone');
+    }
+
+    public function setVBillPhone($v_billphone)
+    {
+        return $this->setParameter('v_billphone', $v_billphone);
+    }
+
+    public function getVProductDesc()
+    {
+        return $this->getParameter('v_productdesc');
+    }
+
+    public function setVProductDesc($v_productdesc)
+    {
+        return $this->setParameter('v_productdesc', $v_productdesc);
     }
 
     protected function guardParameters()
     {
+        // require validation
         $this->validate(
-            'card',
-            'amount',
-            'currency',
-            'description',
-            'transactionId',
-            'returnUrl'
+            'v_cartid',
+            'v_currency',
+            'v_amount',
+            // optional based on doc, but should be have just like ipay88
+            'v_productdesc',
+            'v_firstname',
+            'v_lastname',
+            'v_billphone',
+            'returnurl',
+            'callbackurl',
         );
     }
 
     protected function createSignatureFromString($fullStringToHash)
     {
-        return hash('sha256', $fullStringToHash);
+        return hash('sha512', $fullStringToHash);
     }
 
     // private function hex2bin($hexSource)

@@ -1,35 +1,36 @@
 <?php
 
-namespace Omnipay\IPay88\Message;
+namespace Omnipay\Gkash\Message;
 
 class PurchaseRequest extends AbstractRequest
 {
     public function getData()
     {
+
         $this->guardParameters();
 
         return [
-            'MerchantCode' => $this->getMerchantCode(),
-            'PaymentId' => '',
-            'RefNo' => $this->getTransactionId(),
-            'Amount' => number_format($this->getAmount(), 2),
-            'Currency' => $this->getCurrency(),
-            'ProdDesc' => $this->getDescription(),
-            'UserName' => $this->getCard()->getBillingName(),
-            'UserEmail' => $this->getCard()->getEmail(),
-            'UserContact' => $this->getCard()->getNumber(),
-            'Remark' => '',
-            'Lang' => '',
-            'SignatureType' => 'SHA256',
-            'Signature' => $this->signature(
-                $this->getMerchantKey(),
-                $this->getMerchantCode(),
-                $this->getTransactionId(),
-                $this->getAmount(),
-                $this->getCurrency()
+            // required
+            'version' => $this->getVersion(),
+            'CID' => $this->getCID(),
+            'v_cartid' => $this->getVCartId(),
+            'v_currency' => $this->getVCurrency(),
+            'v_amount' => number_format($this->getVAmount(), 2),
+            'signature' => $this->signature(
+                $this->getSignatureKey(),
+                $this->getCID(),
+                $this->getVCartId(),
+                $this->getVAmount(),
+                $this->getVCurrency(),
             ),
-            'ResponseURL' => $this->getReturnUrl(),
-            'BackendURL' => $this->getBackendUrl(),
+
+            // optional at doc, but is better to include, the more detail the transactions
+            'v_firstname' => $this->getVFirstName(),
+            'v_lastname' => $this->getVLastName(),
+            'v_billphone' => $this->getVBillPhone(),
+            'v_productdesc' => $this->getVProductDesc(),
+            'returnurl' => $this->getReturnUrl(),
+            'callbackurl' => $this->getCallbackUrl(),
         ];
     }
 
@@ -38,13 +39,16 @@ class PurchaseRequest extends AbstractRequest
         return $this->response = new PurchaseResponse($this, $data);
     }
 
-    private function signature($merchantKey, $merchantCode, $refNo, $amount, $currency)
+    private function signature($signatureKey, $CID, $v_cartid, $v_amount, $v_currency)
     {
-        $amount = str_replace([',', '.'], '', $amount);
+        //format: Sha512 (SIGNATUREKEY ; CID ; V_CARTID ; V_AMOUNT ; V_CURRENCY)
+        // NOTE
+        // The combined string shall be UPPERCASED before the SHA512 hash computation.
+        // Amount shall always convert to two decimal places and consists only of digits. e.g 100.00 shall be converted to 10000 , 1 shall be converted to 100
+        $v_amount = str_replace([',', '.'], '', $v_amount);
+        $paramsInArray = array_map('strtoupper', [$signatureKey, $CID, $v_cartid, $v_amount, $v_currency]);
 
-        $paramsInArray = [$merchantKey, $merchantCode, $refNo, $amount, $currency];
-
-        return $this->createSignatureFromString(implode('', $paramsInArray));
+        return $this->createSignatureFromString(implode(';', $paramsInArray));
     }
 
 }

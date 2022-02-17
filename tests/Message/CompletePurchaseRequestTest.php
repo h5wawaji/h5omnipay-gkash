@@ -1,7 +1,6 @@
 <?php
 
-namespace Omnipay\IPay88\Message;
-
+namespace Omnipay\Gkash\Message;
 
 use Omnipay\Tests\TestCase;
 
@@ -27,7 +26,7 @@ class CompletePurchaseRequestTest extends TestCase
             'AuthCode' => '',
             'Status' => 1,
             'ErrDesc' => '',
-            'Signature' => '0X0Yq8zEmJ3ddMtn8e/1suethT8='
+            'Signature' => '0X0Yq8zEmJ3ddMtn8e/1suethT8=',
         ]);
 
         $this->request->initialize([
@@ -35,7 +34,7 @@ class CompletePurchaseRequestTest extends TestCase
                 'firstName' => 'Xu',
                 'lastName' => 'Ding',
                 'email' => 'xuding@spacebib.com',
-                'number' => '93804194'
+                'number' => '93804194',
             ],
             'amount' => '1.00',
             'currency' => 'MYR',

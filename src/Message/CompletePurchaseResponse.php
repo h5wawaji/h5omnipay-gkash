@@ -1,7 +1,6 @@
 <?php
 
-namespace Omnipay\IPay88\Message;
-
+namespace Omnipay\Gkash\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
@@ -9,15 +8,11 @@ use Omnipay\Common\Message\RequestInterface;
 class CompletePurchaseResponse extends AbstractResponse
 {
     private $reQueryResponse = [
-        '00' => 'Successful payment',
-        'Invalid parameters' => 'Parameters pass in incorrect',
-        'Record not found' => 'Cannot found the record',
-        'Incorrect amount' => 'Amount different',
-        'Payment fail' => 'Payment fail',
-        'M88Admin' => 'Payment status updated by iPay88 Admin(Fail)'
+        '88' => 'Successful payment',
+        '66' => 'Payment fail',
+        '11' => 'Payment Pending',
+        '99' => 'Error',
     ];
-
-    private $invalidSignatureMsg = 'Invalid signature returned from iPay88';
 
     protected $message;
 
@@ -27,28 +22,26 @@ class CompletePurchaseResponse extends AbstractResponse
     {
         parent::__construct($request, $data);
 
-        if ($this->data['Status'] != 1) {
-            $this->message = $this->data['ErrDesc'];
+        $this->data = json_decode($this->data, true);
+
+        $intstatus = intval($this->data['status']);
+
+        if (88 != $intstatus) {
+            $this->message = $this->data['description'];
             $this->status = false;
             return;
         }
 
-        if ($this->data['Signature'] != $this->data['ComputedSignature']) {
-            $this->message = $this->invalidSignatureMsg;
-            $this->status = false;
-            return;
-        }
+        $this->message = isset($this->reQueryResponse[$intstatus]) ? $this->reQueryResponse[$intstatus] : $this->data['status'];
 
-        $this->message =
-            isset($this->reQueryResponse[$this->data['ReQueryStatus']]) ? $this->reQueryResponse[$this->data['ReQueryStatus']] : '';
-
-        if ('00' == $this->data['ReQueryStatus']) {
+        if (88 == $intstatus) {
             $this->status = true;
             return;
         }
 
         $this->status = false;
         return;
+
     }
 
     public function isSuccessful()
@@ -63,12 +56,12 @@ class CompletePurchaseResponse extends AbstractResponse
 
     public function getTransactionReference()
     {
-        return $this->data['TransId'];
+        return $this->data['POID'];
     }
 
     public function getTransactionId()
     {
-        return $this->data['RefNo'];
+        return $this->data['cartid'];
     }
 
 }

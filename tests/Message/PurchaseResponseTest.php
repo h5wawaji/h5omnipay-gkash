@@ -1,7 +1,6 @@
 <?php
 
-namespace Omnipay\IPay88\Message;
-
+namespace Omnipay\Gkash\Message;
 
 use Omnipay\Tests\TestCase;
 

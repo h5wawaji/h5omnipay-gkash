@@ -1,5 +1,5 @@
 <?php
-namespace Omnipay\IPay88;
+namespace Omnipay\Gkash;
 
 use Omnipay\Common\AbstractGateway;
 
@@ -14,56 +14,49 @@ class Gateway extends AbstractGateway
 {
     public function getName()
     {
-        return 'iPay88';
+        return 'gkash';
     }
 
     public function getDefaultParameters()
     {
+
         return [
-            'merchantKey' => '',
-            'merchantCode' => '',
-            'backendUrl' => '',
+            'SignatureKey' => '',
+            'CID' => '',
         ];
+
     }
 
-    public function getMerchantKey()
+    public function getSignatureKey()
     {
-        return $this->getParameter('merchantKey');
+        return $this->getParameter('SignatureKey');
     }
 
-    public function setMerchantKey($merchantKey)
+    public function setSignatureKey($signature_key)
     {
-        return $this->setParameter('merchantKey', $merchantKey);
+        // signature key, received at email when registered
+        return $this->setParameter('SignatureKey', $signature_key);
     }
 
-    public function getMerchantCode()
+    public function getCID()
     {
-        return $this->getParameter('merchantCode');
+        return $this->getParameter('CID');
     }
 
-    public function setMerchantCode($merchantCode)
+    public function setCID($cid)
     {
-        return $this->setParameter('merchantCode', $merchantCode);
-    }
-
-    public function getBackendUrl()
-    {
-        return $this->getParameter('backendUrl');
-    }
-
-    public function setBackendUrl($backendUrl)
-    {
-        return $this->setParameter('backendUrl', $backendUrl);
+        // merchant ID
+        return $this->setParameter('CID', $cid);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\IPay88\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Gkash\Message\PurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\IPay88\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Gkash\Message\CompletePurchaseRequest', $parameters);
     }
 
 }
