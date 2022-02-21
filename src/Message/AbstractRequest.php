@@ -130,8 +130,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             // optional based on doc, but should be have just like ipay88
             'v_productdesc',
             'v_firstname',
-            'v_lastname',
             'v_billphone',
+            'v_billemail',
             'returnurl',
             'callbackurl',
         );

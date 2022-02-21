@@ -8,7 +8,7 @@ use Omnipay\Common\AbstractGateway;
  *
  * This driver is based on
  * Online Payment Switching Gateway Technical Specification Version 1.6.1
- * @link https://drive.google.com/file/d/0B4YUBYSgSzmAbGpjUXMyMWx6S2s/view?usp=sharing
+ * @link https://drive.google.com/file/d/1iOpAHu-NrX3s63aYDe8i3sBMRZbDWifS/view?usp=sharing
  */
 class Gateway extends AbstractGateway
 {
