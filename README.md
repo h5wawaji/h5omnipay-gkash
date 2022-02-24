@@ -53,13 +53,14 @@ or better yet, fork the library and submit a pull request.
 
 
 ## MORE RESOURCES
-GKASH DOCUMENTATION 
+GKASH DOCUMENTATION <br/>
 https://doc.gkash.my/
 
-MasterCard Test Card: 5453 0100 0009 5323
-Exp Date: MM/YY (any value)
-
-FPX
-username: 1234 
-password:1234
+MasterCard <br/>
+Test Card: 5453 0100 0009 5323<br/>
+Exp Date: MM/YY (any value)<br/>
+<br/>
+FPX<br/>
+username: 1234 <br/>
+password:1234<br/>
 
