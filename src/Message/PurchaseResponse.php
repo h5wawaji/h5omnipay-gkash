@@ -8,40 +8,9 @@ class PurchaseResponse extends AbstractResponse
 {
     protected $endpoint = 'https://api-staging.pay.asia/api/PaymentForm.aspx';
 
-    public function getStatus()
+    public function getTransactionId()
     {
-        return $this->data['status'];
-    }
-
-    public function getCID()
-    {
-        return $this->data['CID'];
-    }
-
-    public function getPOID()
-    {
-
-        return $this->data['POID'];
-    }
-
-    public function getCartId()
-    {
-        return $this->data['cartid'];
-    }
-
-    public function getCurrency()
-    {
-        return $this->data['currency'];
-    }
-
-    public function getAmount()
-    {
-        return $this->data['amount'];
-    }
-
-    public function getSignature()
-    {
-        return $this->data['signature'];
+        return $this->data['v_cartid'];
     }
 
     public function isTransparentRedirect()

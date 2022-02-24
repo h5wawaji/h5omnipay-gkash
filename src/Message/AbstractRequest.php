@@ -10,6 +10,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return '1.5.5';
     }
 
+    public function getQueryVersion()
+    {
+        return '1.3.0';
+    }
+
     public function getSignatureKey()
     {
         return $this->getParameter('SignatureKey');
@@ -130,8 +135,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             // optional based on doc, but should be have just like ipay88
             'v_productdesc',
             'v_firstname',
-            'v_billphone',
-            'v_billemail',
             'returnurl',
             'callbackurl',
         );
