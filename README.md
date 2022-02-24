@@ -56,3 +56,10 @@ or better yet, fork the library and submit a pull request.
 GKASH DOCUMENTATION 
 https://doc.gkash.my/
 
+MasterCard Test Card: 5453 0100 0009 5323
+Exp Date: MM/YY (any value)
+
+FPX
+username: 1234 
+password:1234
+
