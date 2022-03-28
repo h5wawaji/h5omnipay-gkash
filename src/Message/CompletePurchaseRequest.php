@@ -6,7 +6,8 @@ class CompletePurchaseRequest extends AbstractRequest
 {
 
     #QUERY section, endpoint change to query
-    protected $endpoint = 'https://api-staging.pay.asia/api/payment/query';
+    protected $liveEndpoint = 'https://api.gkash.my/api/payment/query';
+    protected $testEndpoint = 'https://api-staging.pay.asia/api/payment/query';
 
     public function getData()
     {
@@ -20,7 +21,7 @@ class CompletePurchaseRequest extends AbstractRequest
     public function sendData($data)
     {
 
-        $data = $this->httpClient->request('post', $this->endpoint, [
+        $data = $this->httpClient->request('post', $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint, [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ], json_encode([

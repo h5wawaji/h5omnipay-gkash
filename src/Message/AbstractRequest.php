@@ -5,6 +5,16 @@ namespace Omnipay\Gkash\Message;
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
+    private $liveEndpoint = "https://api.gkash.my/api/paymentform.aspx";
+
+    private $testEndpoint = "https://api-staging.pay.asia/api/PaymentForm.aspx";
+
+    public function getEndpoint()
+    {
+        $url = $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        return $url;
+    }
+
     public function getVersion()
     {
         return '1.5.5';
@@ -123,6 +133,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function setVProductDesc($v_productdesc)
     {
         return $this->setParameter('v_productdesc', $v_productdesc);
+    }
+
+    public function getVBillEmail()
+    {
+        return $this->getParameter('v_billemail');
+    }
+
+    public function setVBillEmail($v_billemail)
+    {
+        return $this->setParameter('v_billemail', $v_billemail);
     }
 
     protected function guardParameters()

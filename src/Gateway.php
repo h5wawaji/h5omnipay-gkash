@@ -23,6 +23,7 @@ class Gateway extends AbstractGateway
         return [
             'SignatureKey' => '',
             'CID' => '',
+            'testMode' => false,
         ];
 
     }

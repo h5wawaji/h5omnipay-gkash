@@ -26,11 +26,14 @@ class PurchaseRequest extends AbstractRequest
 
             // optional at doc, but is better to include, the more detail the transactions
             'v_firstname' => $this->getVFirstName(),
-            'v_lastname' => $this->getVLastName(),
             'v_billphone' => $this->getVBillPhone(),
+            'v_billemail' => $this->getVBillEmail(),
             'v_productdesc' => $this->getVProductDesc(),
             'returnurl' => $this->getReturnUrl(),
             'callbackurl' => $this->getCallbackUrl(),
+
+            // redirect endpoint
+            'redirect_endpoint' => $this->getEndpoint(),
         ];
     }
 
