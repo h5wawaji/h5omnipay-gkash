@@ -1,4 +1,4 @@
-# Omnipay: Gkash
+# Omnipay: Gkash no composer in aliyun
 
 **Gkash driver for the Omnipay PHP payment processing library**
 
@@ -14,13 +14,7 @@ processing library for PHP 5.3+. This package implements Gkash support for Omnip
 Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it
 to your `composer.json` file:
 
-```json
-{
-    "require": {
-        "dilab/omnipay-ipay88": "~2.0"
-    }
-}
-```
+ 
 
 And run composer to update your dependencies:
 
